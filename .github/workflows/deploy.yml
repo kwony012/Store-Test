@@ -24,10 +24,16 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx vite build --base=/Store-Test/
+      - name: Build AGITIO into /agitio/
+        run: npx vite build --base=/Store-Test/agitio/ --outDir site/agitio --emptyOutDir
+      - name: SEED VAULT as main page
+        run: |
+          cp seed-vault/index.html site/index.html
+          mkdir -p site/seed-vault-26
+          cp seed-vault/index.html site/seed-vault-26/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build
