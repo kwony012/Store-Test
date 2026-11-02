@@ -410,7 +410,7 @@ html.ldg,html.ldg body{background:#002613}
 
 .lds .ldt{width:100%}
 .lds .ldt h1{white-space:nowrap;transition:opacity .16s ease}
-.lds .ldt h1.sw{opacity:0}
+.lds .ldt h1.ldfo{opacity:0}
 .lds.done .ldl{animation:none;opacity:1;stroke-width:4}
 .lds.done .ldl.ldo{opacity:.3;stroke-width:7}
 .lds.done .ldr img{animation:none;filter:drop-shadow(0 0 12px rgba(101,215,139,.55))}
@@ -485,6 +485,22 @@ html.ldg,html.ldg body{background:#002613}
 .edf .edb b{font-weight:600;color:#8dea7d}
 @media (max-width:370px){.edf .edb p br{display:none}}
 .ft.fsp.edp{background:linear-gradient(rgba(0,38,19,0),#002613 35%);padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+
+/* Figma CARD_007 인앱 브라우저 이미지 저장 안내 (14247:2063 / 14247:2121) */
+.sv-ov.c7{background:linear-gradient(#000,#002613);font-family:'PretendardVariable',sans-serif}
+.c7 .hd{background:transparent!important;justify-content:space-between;height:50px;min-height:50px;box-sizing:border-box;padding-top:0;padding-bottom:0}
+.c7 .sc{padding:0!important;background:transparent}
+.c7 .c7w{display:flex;flex-direction:column;align-items:center;gap:24px;padding:16px 20px 120px}
+.c7 .c7t{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.c7 .c7t h1{margin:0;font-size:24px;font-weight:700;line-height:1.4;letter-spacing:-.03em;color:#fff}
+.c7 .c7t p{margin:0;font-size:16px;font-weight:500;line-height:1.5;letter-spacing:-.03em;color:rgba(255,255,255,.7);word-break:keep-all}
+.c7 .c7i{width:100%;max-width:350px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.sv-ov.c7 img{width:100%;max-width:350px;aspect-ratio:1;height:auto;margin:0;border-radius:0;background:#000;display:block;-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
+.sv-ov.c7 img.rs{aspect-ratio:auto;width:auto;max-width:100%;max-height:52vh;background:none}
+.c7 .c7i p{margin:0;font-size:14px;font-weight:500;line-height:1.5;letter-spacing:-.03em;color:rgba(255,255,255,.7);text-align:center}
+.ft.fsp.c7f{background:linear-gradient(rgba(0,38,19,0),#002613 35%);padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+.c7f .btn{height:54px;border-radius:100px;background:#8dea7d;color:#000;font:700 18px/1.4 'PretendardVariable',sans-serif;letter-spacing:-.02em}
+.c7f .btn:disabled{opacity:1;background:rgba(141,234,125,.3);color:#000}
 </style></head><body><div id="app"></div>
 <script>
 
@@ -709,7 +725,7 @@ const LDCARD='data:image/webp;base64,UklGRqR9AABXRUJQVlA4WAoAAAAQAAAAQwEAOgEAQUx
 function loading(){return`<div class="lds"><div class="ldh" aria-hidden="true"></div><div class="ldc"><div class="ldr" role="img" aria-label="기억을 정리하는 중"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="ldg" x1="27" y1="35.5" x2="183.5" y2="165.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a0ff9a"/><stop offset=".3" stop-color="#80ecae" stop-opacity=".8"/><stop offset=".7" stop-color="#a385e6" stop-opacity=".35"/><stop offset="1" stop-color="#ae73ef" stop-opacity="0"/></linearGradient></defs><circle class="ldb" cx="100" cy="100" r="98"/><circle class="ldl ldo" cx="100" cy="100" r="98"/><circle class="ldl" cx="100" cy="100" r="98"/></svg><img src="${LDCARD}" alt="" width="108" height="105"></div><div class="ldt"><h1 id="ldm" aria-live="polite">2026년 경험을 분석하는 중</h1><p id="lds2">잠시만 기다려 주세요.</p></div></div></div>`}
 const LDM=['2026년 경험을 분석하는 중','Personal File 분석하는 중','감정 그래프를 읽는 중','메모리 카드를 저장하는 중','기억을 정리하는 중'];
 function ldFit(el){el.style.fontSize='';const w=el.parentElement.clientWidth,s=el.scrollWidth;if(s>w)el.style.fontSize=Math.floor(30*w/s)+'px'}
-function ldSet(t){const m=$('#ldm');if(!m)return;m.classList.add('sw');setTimeout(()=>{if(!$('#ldm'))return;m.textContent=t;ldFit(m);m.classList.remove('sw')},160)}
+function ldSet(t){const m=$('#ldm');if(!m)return;m.classList.add('ldfo');setTimeout(()=>{if(!$('#ldm'))return;m.textContent=t;ldFit(m);m.classList.remove('ldfo')},160)}
 loading.after=()=>{const still=matchMedia('(prefers-reduced-motion:reduce)').matches;lxDone=false;const m=$('#ldm');if(m)ldFit(m);const T=still?2500:7000,step=(T-800)/LDM.length;
 LDM.forEach((t,i)=>{if(i)setTimeout(()=>{if(cur==='loading')ldSet(t)},step*i)});
 setTimeout(()=>{if(cur!=='loading')return;ldSet('2026년 기억 보관 완료');const r=document.querySelector('.lds');if(r)r.classList.add('done')},T-800);
@@ -811,13 +827,13 @@ const qs=21.6*u,qx=N-1.9*u-qs,qy=N-1.9*u-qs;g.fillStyle='#fff';g.fillRect(qx,qy,
 try{const q=qrcode(0,'M');q.addData(qrUrl());q.make();const n=q.getModuleCount(),pd=1.08*u,cs=(qs-2*pd)/n;g.fillStyle='#000';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))g.fillRect(qx+pd+c*cs,qy+pd+r*cs,cs+.5,cs+.5)}catch(e){}
 return cv}
 const inApp=()=>/KAKAOTALK|Instagram|FBAN|FBAV|NAVER\(inapp|DaumApps|Line\/|BAND\//i.test(navigator.userAgent)||FORCE_INAPP;
-function showSave(url){const o=document.createElement('div');o.className='sv-ov';o.id='svo';o.innerHTML=`<div class="hd"><span></span><button class="ib" onclick="$('#svo').remove()" aria-label="닫기">✕</button></div><div class="sc"><h1 class="lg" style="font-size:26px">메모리 카드 이미지 저장</h1><p class="msg">아래의 메모리 카드 이미지를 길게 눌러<br>‘사진에 저장’ 또는 ‘이미지 저장’을 선택해 주세요.</p><img id="svi" src="${url}" alt="내 메모리 카드"><p class="msg" id="svh" style="font-size:13px;margin-top:14px">이미지를 저장한 뒤, 아래의 버튼을 눌러 주세요.</p></div><div class="ft"><button class="btn" id="svb" disabled onclick="$('#svo').remove()">저장했어요</button></div>`;app.appendChild(o);
+function showSave(url,mc){const nm=mc===false?'결과 카드':'메모리 카드',o=document.createElement('div');o.className='sv-ov c7';o.id='svo';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-labelledby','svt');o.innerHTML=`<div class="hd"><span></span><button class="ib" onclick="$('#svo').remove()" aria-label="닫기"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.25 3.75L3.75 16.25M3.75 3.75L16.25 16.25" fill="none" stroke="#fff" stroke-width="1.875" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="sc"><div class="c7w"><div class="c7t"><h1 id="svt">${nm} 이미지 저장</h1><p>아래의 ${nm} 이미지를 길게 눌러<br>‘사진에 저장’ 또는 ‘이미지 저장’을 선택해 주세요.</p></div><div class="c7i"><img id="svi" class="${mc===false?'rs':''}" src="${url}" alt="내 ${nm}"><p id="svh">이미지를 저장한 뒤, 아래의 버튼을 눌러 주세요.</p></div></div></div><div class="ft fsp c7f"><button class="btn" id="svb" disabled onclick="$('#svo').remove()">저장했어요</button></div>`;app.appendChild(o);
 const t0=Date.now(),en=()=>{const b=$('#svb');if(!b||!b.disabled)return;const w=5000-(Date.now()-t0);if(w>0){clearTimeout(en.t);en.t=setTimeout(en,w);return}{b.disabled=false}},im=$('#svi');let tm=0;const st=()=>{clearTimeout(tm);tm=setTimeout(en,450)},sp=()=>clearTimeout(tm);
 ['touchstart','mousedown','pointerdown'].forEach(e=>im.addEventListener(e,st,{passive:true}));['touchend','mouseup','pointerup'].forEach(e=>im.addEventListener(e,sp,{passive:true}));im.addEventListener('contextmenu',en);setTimeout(en,8000)}
 async function saveImg(mk,fname,title,bid,ok){const b=$('#'+bid),bs=b&&(b.querySelector('span')||b),t=bs?bs.textContent:'';if(b){b.disabled=true;bs.textContent='이미지 만드는 중…'}
 try{const cv=await mk(),blob=await new Promise(r=>cv.toBlob(r,'image/png')),file=new File([blob],fname,{type:'image/png'});
 let dl=null;try{dl=window.claude&&claude.use?await claude.use('downloads'):null}catch(e){}if(dl){try{await dl.save({filename:fname,data:blob});ok&&ok();return}catch(e){if(e&&e.code==='declined')return}}
-if(inApp()){showSave(cv.toDataURL('image/png'));ok&&ok();return}
+if(inApp()){showSave(cv.toDataURL('image/png'),bid==='sv');ok&&ok();return}
 const ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 if(ios&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title});ok&&ok();return}catch(e){if(e&&e.name==='AbortError')return}}
 const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=fname;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(u)},4000);ok&&ok()}catch(e){alert('이미지를 만들지 못했어요. 다시 시도해 주세요.')}finally{const b2=$('#'+bid);if(b2){b2.disabled=false;(b2.querySelector('span')||b2).textContent=t}}}
