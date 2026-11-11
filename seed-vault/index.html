@@ -759,6 +759,8 @@ inp.oninput=()=>{it.v=inp.value};inp.onkeydown=e=>{if(e.key==='Enter'){e.prevent
 el.style.visibility='hidden';const sl=$('#sl');if(sl)sl.style.display='none';cw.appendChild(inp);inp.focus();try{inp.select()}catch(_){}}
 function endEdit(quiet){const inp=$('#txe');if(!inp)return;inp.onblur=null;const it=sel&&sel.t=='tx'?sel:null;if(it)it.v=inp.value.trim()||'텍스트';inp.remove();if(!quiet){redraw();tab=2;openSheet();panel()}}
 function editTx(it){if(it&&it.t=='tx')startEdit(it)}
+// 텍스트 입력 중 입력 박스 외 영역을 터치하면 키패드 닫기 (iOS는 빈 영역 터치로 blur가 일어나지 않음)
+document.addEventListener('pointerdown',e=>{const inp=$('#txe');if(!inp||e.target===inp)return;inp.blur()},true);
 function txSet(k,v){ctx.tx[k=='f'?'font':'color']=v;if(sel&&sel.t=='tx'){sel[k]=v;redraw()}panel()}
 function stkW(i){const d=STKD[i];return d?+(d[0]*28/60).toFixed(2):28}
 function addSk(i){const it={t:'sk',v:i,x:.5,y:.5,s:1,r:0};S.card.items.push(it);sel=it;closeSheet();redraw()}
