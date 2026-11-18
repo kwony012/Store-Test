@@ -560,14 +560,17 @@ html.dco .sheet.bgt.stks{height:435px;max-height:calc(100% - 60px)}
 .shi{width:80px;height:80px;border-radius:20px}
 .shi svg{width:46px;height:46px}
 .shr.off .shb{cursor:default;pointer-events:none}
-.sha{position:absolute;right:-8px;bottom:-8px;width:28px;height:28px;padding:0;border:0;border-radius:100px;background:#000;display:grid;place-items:center;cursor:pointer;z-index:3;box-shadow:0 0 0 2px #191919}
+.sha{position:absolute;right:-8px;bottom:-8px;width:30px;height:30px;padding:0;border:1.5px solid rgba(255,255,255,.9);border-radius:100px;background:#000;display:grid;place-items:center;cursor:pointer;z-index:3;box-shadow:0 0 0 2px #191919,0 3px 8px rgba(0,0,0,.6)}
 #pn .shb.on{z-index:2}
 #pn .shr{padding-top:2px;padding-bottom:10px;margin-bottom:-8px}
 .sha:after{content:'';position:absolute;inset:-8px}
-.sha svg{width:14px;height:14px}
+.sha svg{width:20px;height:20px}
 html.dco #mb i,#mb i{background:#000;border-color:#000}
 #crp{position:fixed;inset:0;z-index:300;background:#000;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);font-family:'PretendardVariable',sans-serif;color:#fff}
 #crp[hidden]{display:none}
+#crp{touch-action:none}
+#crp .crsh{touch-action:pan-x}
+#crp button{touch-action:manipulation}
 body.crop-on{overflow:hidden}
 .crh{width:100%;max-width:600px;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 7px;flex:none}
 .crh .ib{width:46px;height:50px;display:grid;place-items:center;background:none;border:0;cursor:pointer}
@@ -766,7 +769,7 @@ const mskUrl=d=>`url('data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<sv
 const shpOf=it=>it&&it.t=='img'&&it.m&&MSHM[it.m]&&MSHM[it.m].d?MSHM[it.m]:null;
 function natSize(it){return it.iw?Promise.resolve():loadImg(it.v).then(im=>{it.iw=im.naturalWidth||im.width;it.ih=im.naturalHeight||im.height}).catch(()=>{})}
 function setShape(k){if(!sel||sel.t!='img')return;const it=sel;if(it.m===k)return;it.m=k;natSize(it).then(()=>{if(!it.cr)it.cr={x:.5,y:.5,s:1};clampCr(it);redraw();panel()});redraw();panel()}
-function clampCr(it){const c=it.cr;if(!c||!it.iw)return;const L=c.s*Math.min(it.iw,it.ih),hx=L/2/it.iw,hy=L/2/it.ih;c.s=Math.max(.25,Math.min(1,c.s));c.x=Math.max(hx,Math.min(1-hx,c.x));c.y=Math.max(hy,Math.min(1-hy,c.y))}
+function clampCr(it){const c=it.cr;if(!c||!it.iw)return;if(!isFinite(c.s))c.s=1;if(!isFinite(c.x))c.x=.5;if(!isFinite(c.y))c.y=.5;c.s=Math.max(.25,Math.min(1,c.s));const L=c.s*Math.min(it.iw,it.ih),hx=L/2/it.iw,hy=L/2/it.ih;c.x=Math.max(hx,Math.min(1-hx,c.x));c.y=Math.max(hy,Math.min(1-hy,c.y))}
 function crImgCss(it){const c=it.cr||{x:.5,y:.5,s:1};if(!it.iw)return'width:100%;height:100%;object-fit:cover';const L=c.s*Math.min(it.iw,it.ih),w=it.iw/L*100,h=it.ih/L*100;return`position:absolute;max-width:none;width:${w}%;height:${h}%;left:${(.5-c.x*it.iw/L)*100}%;top:${(.5-c.y*it.ih/L)*100}%`}
 /* 모양 크기·사진 위치 조정 (전체 팝업) */
 let CR=null,DT=null;
