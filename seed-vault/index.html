@@ -562,7 +562,9 @@ html.dco .sheet.bgt.stks{height:435px;max-height:calc(100% - 60px)}
 .shr.off .shb{cursor:default;pointer-events:none}
 .sha{position:absolute;right:-8px;bottom:-8px;width:30px;height:30px;padding:0;border:1.5px solid rgba(255,255,255,.9);border-radius:100px;background:#000;display:grid;place-items:center;cursor:pointer;z-index:3;box-shadow:0 0 0 2px #191919,0 3px 8px rgba(0,0,0,.6)}
 #pn .shb.on{z-index:2}
-#pn .shr{padding-top:2px;padding-bottom:10px;margin-bottom:-8px}
+#pn .shr{padding-top:2px;padding-bottom:16px;margin-bottom:-14px}
+/* 가로 목록은 가로로만 스크롤 (세로 흔들림 방지) */
+.shr,.ims,.crsh,.bgs .tpr,.bgs .clg.txc,.bgs .stt{overflow-y:hidden!important;overscroll-behavior-y:none}
 .sha:after{content:'';position:absolute;inset:-8px}
 .sha svg{width:20px;height:20px}
 html.dco #mb i,#mb i{background:#000;border-color:#000}
