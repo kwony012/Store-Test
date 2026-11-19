@@ -33,6 +33,9 @@ jobs:
           cp seed-vault/index.html site/seed-vault-26/index.html
           cp -r seed-vault/fonts site/fonts
           cp -r seed-vault/fonts site/seed-vault-26/fonts
+          mkdir -p site/seed-vault-wf
+          cp seed-vault-wf/index.html site/seed-vault-wf/index.html
+          cp -r seed-vault-wf/fonts site/seed-vault-wf/fonts
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
