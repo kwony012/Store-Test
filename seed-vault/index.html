@@ -667,6 +667,11 @@ html.dco .ft.dcp .btn:disabled{opacity:1;background:rgba(141,234,125,.3);color:#
 </style><style id="crc-css">
 .crc{position:relative;flex:none;box-sizing:border-box;background:#000;border:1px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;overflow:visible}
 .crc .cra{flex:none}
+</style><style id="bgv-css">
+.bgv{position:relative;flex:none;box-sizing:border-box;container-type:size;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,.5);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.bgv:active{cursor:grabbing}
+.bgv img{position:absolute;max-width:none;display:block;pointer-events:none;-webkit-user-drag:none}
+.bgv .qr{pointer-events:none}
 </style></head><body><div id="app"></div>
 <script>
 
@@ -860,7 +865,7 @@ o.innerHTML=`<div class="dlw" aria-hidden="true"><i class="dlr"></i><img src="${
 const t0=Date.now();Promise.resolve().then(()=>typeof drawCard=='function'?drawCard(540):null).catch(()=>{}).then(()=>new Promise(r=>setTimeout(r,Math.max(0,1800-(Date.now()-t0))))).then(()=>{o.remove();DLD=false;go('card3')})}
 function resetCrop(){CR.it.cr={x:.5,y:.5,s:1};if(CR.it.m!==CR.bm)crShape(CR.bm);layCrop()}
 function closeCrop(ok){if(!CR)return;if(!ok){CR.it.cr=CR.bak;CR.it.m=CR.bm}const o=$('#crp');if(o)o.hidden=true;document.body.classList.remove('crop-on');CR=null;redraw();panel()}
-addEventListener('resize',()=>{if(CR)layCrop()});
+addEventListener('resize',()=>{if(CR)(CR.vw?layBgv():layCrop())});
 ['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>{if(CR)e.preventDefault()},{passive:false}));
 document.addEventListener('touchmove',e=>{if(CR&&e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
 const bgN=t=>t==0?COLORS.length:t==2?DOTC.length:t==1?GRADS.length:(BGI[t]||[]).length;
@@ -955,10 +960,28 @@ function bgpAdd(el){const f=el.files&&el.files[0];el.value='';if(!f)return;shrin
 function bgpDel(){const C=S.card;C.bgp=null;C.bgOn=false;redraw();panel()}
 function bgpEdit(){const C=S.card;if(C.bgp)openBgCrop(C.bgp,false)}
 function bgpAvg(p){return loadImg(p.v).then(im=>{const c=document.createElement('canvas');c.width=c.height=8;const g=c.getContext('2d'),k=(im.naturalWidth||im.width)/p.iw,L=p.cr.s*Math.min(p.iw,p.ih);g.drawImage(im,(p.cr.x*p.iw-L/2)*k,(p.cr.y*p.ih-L/2)*k,L*k,L*k,0,0,8,8);const d=g.getImageData(0,0,8,8).data;let r=0,gg=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];gg+=d[i+1];b+=d[i+2]}const h=v=>Math.round(v/64).toString(16).padStart(2,'0');p.avg='#'+h(r)+h(gg)+h(b)}).catch(()=>{})}
-function openBgCrop(p,isNew){CR={it:p,bg:true,isNew,bak:{...p.cr}};let o=$('#crp');if(!o){o=document.createElement('div');o.id='crp';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');document.body.appendChild(o)}o.setAttribute('aria-label','배경 사진 노출 영역 설정');
-o.innerHTML=`<div class="hd crh"><span></span><button class="ib" onclick="closeBgCrop(false)" aria-label="닫기"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.25 3.75L3.75 16.25M3.75 3.75L16.25 16.25" fill="none" stroke="#fff" stroke-width="1.875" stroke-linecap="round"/></svg></button></div><div class="crs"><div class="crc" id="crc"><div class="cra" id="cra"><img class="crd" id="crd" src="${p.v}" alt=""><div class="crf" id="crf"><div class="crm" id="crm"><img id="cri" src="${p.v}" alt=""></div><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H100V100H0Z" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="6 4" vector-effect="non-scaling-stroke"/></svg><span class="crk" id="crk" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 13L8 8L3 3M9.33333 13H13V9.33333M6.66667 3H3V6.66667" stroke="#1C1C1C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div></div></div><div class="crw"><p class="crg">영역을 끌어서 캔버스에 보여줄 부분을 정하고,<br>모서리 버튼이나 두 손가락으로 크기를 조절해요.</p></div><div class="crb"><button class="crs2" onclick="resetBgCrop()">처음 상태로</button><button class="cro" onclick="closeBgCrop(true)">완료</button></div>`;
-o.hidden=false;document.body.classList.add('crop-on');layCrop();bindCrop()}
-function resetBgCrop(){if(!CR)return;CR.it.cr={x:.5,y:.5,s:1};layCrop()}
+function openBgCrop(p,isNew){CR={it:p,bg:true,vw:true,isNew,bak:{...p.cr}};let o=$('#crp');if(!o){o=document.createElement('div');o.id='crp';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');document.body.appendChild(o)}o.setAttribute('aria-label','내 사진 배경 설정');
+o.innerHTML=`<div class="hd crh"><span></span><button class="ib" onclick="closeBgCrop(false)" aria-label="닫기"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M16.25 3.75L3.75 16.25M3.75 3.75L16.25 16.25" fill="none" stroke="#fff" stroke-width="1.875" stroke-linecap="round"/></svg></button></div><div class="crs"><div class="bgv" id="bgv" role="img" aria-label="캔버스 미리보기: 끌어서 이동, 두 손가락으로 확대·축소"><img id="bgi" src="${p.v}" alt="" draggable="false"><div class="qr" aria-hidden="true">${qrSvg()}</div></div></div><div class="crw"><p class="crg">사진을 끌어서 캔버스에 보여줄 부분을 정하고,<br>두 손가락으로 확대·축소해요.</p></div><div class="crb"><button class="crs2" onclick="resetBgCrop()">처음 상태로</button><button class="cro" onclick="closeBgCrop(true)">완료</button></div>`;
+o.hidden=false;document.body.classList.add('crop-on');layBgv();bindBgv()}
+const BGV_MIN=.2;
+function bgvClamp(p){const c=p.cr,m=Math.min(p.iw,p.ih);c.s=Math.max(BGV_MIN,Math.min(1,c.s));const L=c.s*m,hx=L/2/p.iw,hy=L/2/p.ih;c.x=Math.max(hx,Math.min(1-hx,c.x));c.y=Math.max(hy,Math.min(1-hy,c.y))}
+function layBgv(){if(!CR)return;const p=CR.it,c=p.cr,V=$('#bgv');if(!V)return;bgvClamp(p);
+const cs=Math.round(Math.min(innerWidth-20,370,Math.max(200,innerHeight-352)));V.style.width=V.style.height=cs+'px';
+const vin=V.clientWidth,L=c.s*Math.min(p.iw,p.ih),k=vin/L,I=$('#bgi').style;CR.k=k;CR.V=vin;
+I.width=p.iw*k+'px';I.height=p.ih*k+'px';I.left=(vin/2-c.x*p.iw*k)+'px';I.top=(vin/2-c.y*p.ih*k)+'px'}
+function bgvZoom(f,fx,fy){const p=CR.it,c=p.cr,V=CR.V,k=CR.k,ix=c.x*p.iw+(fx-V/2)/k,iy=c.y*p.ih+(fy-V/2)/k;
+c.s=Math.max(BGV_MIN,Math.min(1,c.s/f));const k2=V/(c.s*Math.min(p.iw,p.ih));c.x=(ix-(fx-V/2)/k2)/p.iw;c.y=(iy-(fy-V/2)/k2)/p.ih;layBgv()}
+function bindBgv(){const V=$('#bgv'),P=new Map();let g=null;const loc=e=>{const r=V.getBoundingClientRect();return{x:e.clientX-r.left-V.clientLeft,y:e.clientY-r.top-V.clientTop}};
+const pin=()=>{const[a,b]=[...P.values()];return{d:Math.hypot(a.x-b.x,a.y-b.y),mx:(a.x+b.x)/2,my:(a.y+b.y)/2}};
+const reset=()=>{if(P.size>=2){const q=pin();g={t:'pinch',d:q.d,mx:q.mx,my:q.my}}else if(P.size===1){const[a]=[...P.values()];g={t:'pan',x:a.x,y:a.y}}else g=null};
+V.onpointerdown=e=>{e.preventDefault();V.setPointerCapture(e.pointerId);P.set(e.pointerId,loc(e));reset()};
+V.onpointermove=e=>{if(!P.has(e.pointerId)||!g||!CR)return;P.set(e.pointerId,loc(e));const p=CR.it,c=p.cr;
+if(g.t=='pan'&&P.size===1){const[a]=[...P.values()];c.x-=(a.x-g.x)/(CR.k*p.iw);c.y-=(a.y-g.y)/(CR.k*p.ih);g.x=a.x;g.y=a.y;layBgv()}
+else if(g.t=='pinch'&&P.size>=2){const q=pin();c.x-=(q.mx-g.mx)/(CR.k*p.iw);c.y-=(q.my-g.my)/(CR.k*p.ih);bgvClamp(p);layBgv();bgvZoom(q.d/g.d,q.mx,q.my);g.d=q.d;g.mx=q.mx;g.my=q.my}};
+const end=e=>{if(!P.has(e.pointerId))return;P.delete(e.pointerId);reset()};V.onpointerup=end;V.onpointercancel=end;
+V.onwheel=e=>{e.preventDefault();const l=loc(e);bgvZoom(Math.exp(-e.deltaY*.0015),l.x,l.y)};
+V.ondblclick=e=>{const l=loc(e);bgvZoom(CR.it.cr.s>.6?2:1/CR.it.cr.s,l.x,l.y)}}
+function resetBgCrop(){if(!CR)return;CR.it.cr={x:.5,y:.5,s:1};CR.vw?layBgv():layCrop()}
 function closeBgCrop(ok){if(!CR)return;const p=CR.it,C=S.card;if(!ok)p.cr=CR.bak;const o=$('#crp');if(o)o.hidden=true;document.body.classList.remove('crop-on');const nw=CR.isNew;CR=null;
 if(ok){C.bgp=p;C.bgOn=true;sel=null;bgpAvg(p).then(()=>{})}redraw();panel()}
 
